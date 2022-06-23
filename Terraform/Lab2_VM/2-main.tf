@@ -1,6 +1,10 @@
 resource "azurerm_resource_group" "terra_rg" {
   name     = var.resourceGroupName
   location = var.azureRegion
+  tags = {
+    environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
+  }
 }
 
 resource "azurerm_virtual_network" "terra_vnet" {
@@ -8,6 +12,11 @@ resource "azurerm_virtual_network" "terra_vnet" {
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.terra_rg.location
   resource_group_name = azurerm_resource_group.terra_rg.name
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_subnet" "terra_subnet" {
@@ -26,6 +35,24 @@ resource "azurerm_network_interface" "terra_nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.terra_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.terra_publicip.id
+  }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+resource "azurerm_public_ip" "terra_publicip" {
+  name                = "ydilabPublicIp01"
+  resource_group_name = azurerm_resource_group.terra_rg.name
+  location            = azurerm_resource_group.terra_rg.location
+  allocation_method   = "Static"
+
+  tags = {
+    environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
   }
 }
 
@@ -39,9 +66,14 @@ resource "azurerm_linux_virtual_machine" "terra_vm" {
     azurerm_network_interface.terra_nic.id,
   ]
 
+  tags = {
+    environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
+  }
+
   admin_ssh_key {
     username   = var.vmUser
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("c:\\Users\\ydi\\.ssh\\ydiopsaas.pub")
   }
 
   os_disk {
@@ -50,9 +82,9 @@ resource "azurerm_linux_virtual_machine" "terra_vm" {
   }
 
   source_image_reference {
-    publisher = "Canonical" # az vm image list --output table
+    publisher = "Canonical"    # az vm image list --output table
     offer     = "UbuntuServer" # az vm image list --offer UbuntuServer --all --output table
-    sku       = "18.04-LTS" # az vm image list-skus --location westus --publisher Canonical --offer UbuntuServer --output table
+    sku       = "18.04-LTS"    # az vm image list-skus --location westus --publisher Canonical --offer UbuntuServer --output table
     version   = "latest"
   }
 }

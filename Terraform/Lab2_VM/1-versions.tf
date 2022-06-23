@@ -10,10 +10,10 @@
 terraform {
   required_version = ">= 1.1.7"
   backend "azurerm" {
-    resource_group_name  = "RG-AKSCluster"     # mettre ici le nom du resource group de vos ressource
-    storage_account_name = "terraformstan"  # /!\ mettre le nom du compte de stockage créer dans le lab 1
+    resource_group_name  = "RG-YDIAKSCluster" # mettre ici le nom du resource group de vos ressource
+    storage_account_name = "terraformydi"     # /!\ mettre le nom du compte de stockage créer dans le lab 1
     container_name       = "tfstate"
-    key                  = "vm.terraform.tfstate" 
+    key                  = "vm.terraform.tfstate"
   }
   required_providers {
     azurerm = {
@@ -29,8 +29,7 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "= 2.98.0"
     }
-
-}
+  }
 }
 
 # Configure the Azure Provider

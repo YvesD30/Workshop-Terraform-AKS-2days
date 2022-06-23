@@ -13,7 +13,8 @@ resource "azurerm_storage_account" "Terra-Storage-Backend" {
   enable_https_traffic_only = true
 
   tags = {
-    environment = "lab"
+    environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
   }
 }
 

@@ -99,7 +99,8 @@ resource "azurerm_kubernetes_cluster" "Terra_aks" {
 
   tags = {
     Usage       = "WorkShop IaC"
-    Environment = "Azure AKS"
+    Environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
   }
 }
 

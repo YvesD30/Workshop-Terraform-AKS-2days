@@ -29,7 +29,3 @@ variable "AzureClientID" {
 variable "AzureTenandID" {
   type = string
 }
-
-
-
-

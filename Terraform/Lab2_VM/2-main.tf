@@ -77,8 +77,9 @@ resource "azurerm_linux_virtual_machine" "terra_vm" {
   }
 
   os_disk {
+    disk_size_gb = 50
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = "Premium_LRS"
   }
 
   source_image_reference {

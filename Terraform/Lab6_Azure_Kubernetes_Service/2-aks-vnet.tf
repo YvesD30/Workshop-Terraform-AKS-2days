@@ -13,6 +13,11 @@ resource "azurerm_virtual_network" "Terra_aks_vnet" {
   location                   = var.azure_region
   resource_group_name        = var.resource_group
   address_space       = ["10.0.0.0/8"]
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 # Role Assignment to give AKS the access to VNET - Required for Advanced Networking

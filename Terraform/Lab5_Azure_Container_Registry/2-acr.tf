@@ -4,6 +4,10 @@ resource "azurerm_container_registry" "Terra-acr" {
   location            = var.azureRegion
   sku                 = "Standard"
   admin_enabled       = false
+  tags = {
+    environment = "ydilab"
+    OwnerEmail  = "yves.dieterich@itesoft.com"
+  }
   
 }
 
